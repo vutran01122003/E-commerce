@@ -1,0 +1,20 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/payment-service
+    username: root
+    password: 123456a
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+paypal:
+  client-id: AfBrF7ySZvH5pSkbynwUNLPZJI4oltV_gp8fZkcP_wDoauhO-Dyn1-wnXfJL-NC1SzuwDDGPFoNmPboY
+  client-secret: EOObGNURwiHZT_2HSuzwT2JWefXITqnnrJ6mKIYcEP8xtIBdrWpV3jnSksBOCXG2DecpFCFYToyLi6VV
+  mode: sandbox
+  cancel-url: http://localhost:8001/payments/cancel
+  success-url: http://localhost:8001/payments/success
