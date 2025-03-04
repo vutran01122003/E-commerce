@@ -16,5 +16,19 @@ paypal:
   client-id: AfBrF7ySZvH5pSkbynwUNLPZJI4oltV_gp8fZkcP_wDoauhO-Dyn1-wnXfJL-NC1SzuwDDGPFoNmPboY
   client-secret: EOObGNURwiHZT_2HSuzwT2JWefXITqnnrJ6mKIYcEP8xtIBdrWpV3jnSksBOCXG2DecpFCFYToyLi6VV
   mode: sandbox
-  cancel-url: http://localhost:8001/payments/cancel
-  success-url: http://localhost:8001/payments/success
+  intent: sale
+  cancel-url: http://localhost:8001/api/payments/PAYPAL/cancel
+  success-url: http://localhost:8001/api/payments/PAYPAL/inspect
+vnpay:
+  vnp_TmnCode: 8XJ7YD7U
+  vnp_HashSecret: P4FTEHDB1QTXI1UEKH85LR8WZO0Z2X6C
+  vnp_Url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  vnp_Version: 2.1.0
+  vnp_Command: pay
+  orderType: other
+  vnp_CurrCode: VND
+  vnp_returnUrl: http://localhost:8001/api/payments/VNPAY/inspect
+url:
+  error-url: http://localhost:8001/api/payments/error
+
+
