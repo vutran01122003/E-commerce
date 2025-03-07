@@ -18,8 +18,8 @@ import java.sql.Timestamp;
 @Table(name = "payments")
 public class Payment {
     @Id
-    @Column(name = "payment_id", unique = true, nullable = false)
-    private String paymentId;
+    @Column(unique = true, nullable = false)
+    private String id;
     @Column(name = "user_id", nullable = false)
     private String userId;
     @Column(name = "payment_method", nullable = false)

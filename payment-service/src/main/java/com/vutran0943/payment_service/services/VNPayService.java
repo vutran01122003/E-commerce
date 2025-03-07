@@ -46,8 +46,9 @@ public class VNPayService implements PaymentService {
         int amount = (int) (paymentCreationRequest.getAmount() * 100);
         String bankCode = paymentCreationRequest.getBankCode();
         String description = paymentCreationRequest.getDescription();
-        String vnp_TxnRef = vnpayUtils.getRandomNumber(32);
+        String vnp_TxnRef = vnpayUtils.getRandomNumber(8);
         String vnp_IpAddr = vnpayUtils.getIpAddress(req);
+        String paymentId = UUID.randomUUID().toString();
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
@@ -70,7 +71,7 @@ public class VNPayService implements PaymentService {
         } else {
             vnp_Params.put("vnp_Locale", "vn");
         }
-        vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
+        vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl + String.format("/%s", paymentId));
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -119,7 +120,7 @@ public class VNPayService implements PaymentService {
 
         Payment payment = paymentMapper.toPayment(paymentCreationRequest);
         payment.setStatus(PaymentStatus.CREATED.toString());
-        payment.setPaymentId(vnp_TxnRef);
+        payment.setId(paymentId);
 
         paymentRepository.save(payment);
 
@@ -127,12 +128,29 @@ public class VNPayService implements PaymentService {
     }
 
     @Override
-    public String inspectPaymentStatus(HttpServletRequest http) throws Exception {
-        String vnp_TxnRef = http.getParameter("vnp_TxnRef");
-        Payment payment = paymentRepository.findPaymentByPaymentId(vnp_TxnRef);
-        payment.setStatus(PaymentStatus.APPROVED.toString());
+    public String inspectPaymentStatus(String id, HttpServletRequest http) throws Exception {
+        String vnp_ResponseCode = http.getParameter("vnp_ResponseCode");
+
+        String status = PaymentStatus.APPROVED.toString();
+        if(!vnp_ResponseCode.equals("00")) status = PaymentStatus.FAILED.toString();
+
+        Payment payment = paymentRepository.findPaymentById(id);
+        payment.setStatus(status);
 
         paymentRepository.save(payment);
-        return "approved";
+
+        return status;
+    }
+
+    @Override
+    public String discardPayment(String paymentId, HttpServletRequest http) throws Exception {
+        Payment payment = paymentRepository.findPaymentById(paymentId);
+
+        String status = PaymentStatus.FAILED.toString();
+
+        payment.setStatus(PaymentStatus.FAILED.toString());
+        paymentRepository.save(payment);
+
+        return status;
     }
 }

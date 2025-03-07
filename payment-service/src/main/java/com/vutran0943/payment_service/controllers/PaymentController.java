@@ -46,24 +46,34 @@ public class PaymentController {
         }
     }
 
-    @GetMapping("/{payment-method}/inspect")
-    public String successHandler(@PathVariable("payment-method") String paymentMethod, HttpServletRequest http) throws Exception {
+    @GetMapping("/{payment-method}/inspect/{paymentId}")
+    public String successHandler(
+            @PathVariable("payment-method") String paymentMethod,
+            @PathVariable("paymentId") String paymentId,
+            HttpServletRequest http
+    ) {
         try {
             String provider = PaymentMethod.valueOf(paymentMethod).getServiceName();
 
             PaymentService paymentService = paymentServiceFactory.getPaymentService(provider);
 
-            return paymentService.inspectPaymentStatus(http);
+            return paymentService.inspectPaymentStatus(paymentId, http);
         } catch (Exception e) {
             log.error(e.getMessage());
             return "error";
         }
     }
 
-    @GetMapping("/{payment-method}/cancel")
-    public String cancelHandler() {
-        System.out.print("ok");
-        return "cancel";
+    @GetMapping("/{payment-method}/cancel/{paymentId}")
+    public String cancelHandler(
+            @PathVariable("payment-method") String paymentMethod,
+            @PathVariable("paymentId") String paymentId,
+            HttpServletRequest http
+    ) throws Exception {
+        String provider = PaymentMethod.valueOf(paymentMethod).getServiceName();
+        PaymentService paymentService = paymentServiceFactory.getPaymentService(provider);
+
+        return paymentService.discardPayment(paymentId, http);
     }
 
     @GetMapping("/error")

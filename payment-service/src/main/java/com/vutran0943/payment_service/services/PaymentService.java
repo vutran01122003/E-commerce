@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PaymentService {
     String processPayment(PaymentCreationRequest paymentCreationRequest, HttpServletRequest httpRequest) throws Exception;
-    String inspectPaymentStatus(HttpServletRequest http) throws Exception;
+    String inspectPaymentStatus(String paymentId, HttpServletRequest http) throws Exception;
+    String discardPayment(String paymentId, HttpServletRequest http) throws Exception;
 }
 
