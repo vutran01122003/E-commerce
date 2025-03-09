@@ -1,8 +1,10 @@
 import dotenv from "dotenv";
+import { Env } from "../shared";
 dotenv.config();
 
 const DEV = {
-    PORT: process.env.DEV_APP_PORT,
+    PORT: process.env.DEV_APP_PORT as string,
+    ENV: Env.DEV as string,
     MONGODB: {
         URI: process.env.DEV_MONGODB_URI as string,
         USERNAME: process.env.DEV_MONGODB_USERNAME as string,
@@ -11,7 +13,8 @@ const DEV = {
 };
 
 const PRO = {
-    PORT: process.env.PRO_APP_PORT,
+    PORT: process.env.PRO_APP_PORT as string,
+    ENV: Env.PRO as string,
     MONGODB: {
         URI: process.env.PRO_MONGODB_URI as string,
         USERNAME: process.env.PRO_MONGODB_USERNAME as string,

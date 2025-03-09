@@ -1,6 +1,6 @@
-import { Connection, Document, Mongoose, Schema } from "mongoose";
+import { Connection, Document, Schema } from "mongoose";
 import Database from "../databases/database.connection";
-import { DBType } from "../shared/dbType";
+import { DBType } from "../shared";
 
 const [DOC, COL] = ["dicount", "discounts"];
 const conn = Database.getInstance(DBType.MONGODB).getConnection() as Connection;
@@ -35,7 +35,7 @@ const DiscountSchema = new Schema<DiscountDocument>(
         },
         code: {
             type: String,
-            minLength: 2,
+            minLength: 5,
             maxLength: 255
         },
         start_time: {

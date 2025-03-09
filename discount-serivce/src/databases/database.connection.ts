@@ -1,5 +1,5 @@
 import mongoose, { Connection, Mongoose } from "mongoose";
-import { DBType } from "../shared/dbType";
+import { DBType } from "../shared";
 import logger from "../utils/logger";
 import Redis from "ioredis";
 import defaultConfig from "../config/default.config";
@@ -36,6 +36,7 @@ class Database {
                 this.connection.on("disconnected", function (this: Connection) {
                     logger.debug(`MONGODB: ${this.name} disconnected`);
                 });
+
                 break;
             }
 

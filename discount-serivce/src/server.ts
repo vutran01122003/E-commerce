@@ -1,10 +1,9 @@
-import dotenv from "dotenv";
 import app from "./app";
 import logger from "./utils/logger";
-dotenv.config();
+import defaultConfig from "./config/default.config";
 
-const port = 3000;
+const { PORT } = defaultConfig;
 
-app.listen(port, () => {
-    logger.info(`[server]: Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+    logger.info(`[server]: Server is running at http://localhost:${PORT}`);
 });

@@ -1,20 +1,23 @@
-import { object, string, number, date, boolean, TypeOf } from "zod";
+import { object, string, number, boolean, TypeOf } from "zod";
+import { validateObjectId } from "../utils";
 
 export const DiscountSchema = object({
     body: object({
         shop: string({
-            required_error: "Shop reference must be required"
+            required_error: "Shop id reference must be required"
+        }).refine((value) => validateObjectId(value), {
+            message: "Invalid Shop id reference"
         }),
         name: string({
             required_error: "Discount name is required"
         })
-            .min(2, "Discount name must be greater than 1 characters")
-            .max(255, "Discount name must be less than 256 characters"),
+            .min(2, "Discount name must be greater than or equal to 2 characters")
+            .max(255, "Discount name must be less than or equal to 255 characters"),
         code: string({
             required_error: "Code is required"
         })
-            .min(2, "Code must be greater than 1 characters")
-            .max(255, "Code must be less than 256 characters"),
+            .min(2, "Code must be greater than or equal to 2 characters")
+            .max(255, "Code must be less than or equal to 255 characters"),
         start_time: string({
             required_error: "Start time is required"
         }).datetime(),
@@ -46,4 +49,44 @@ export const DiscountSchema = object({
     })
 });
 
-export type DiscountInput = TypeOf<typeof DiscountSchema>["body"];
+export const UpdateDiscountSchema = object({
+    body: object({
+        name: string({
+            required_error: "Discount name is required"
+        })
+            .min(2, "Discount name must be greater than or equal to 2 characters")
+            .max(255, "Discount name must be less than 256 characters")
+            .optional(),
+        code: string()
+            .min(5, "Code must be greater than or equal to 5 characters")
+            .max(255, "Code must be less than 256 characters")
+            .optional(),
+        start_time: string().datetime().optional(),
+        expiry_time: string().datetime().optional(),
+        discount_type: string().optional(),
+        discount_value: number()
+            .refine((value) => value >= 0, { message: "Discount value must be positive number" })
+            .optional(),
+        min_price_product: number()
+            .refine((value) => value >= 0, { message: "Min price product must be positive number" })
+            .optional(),
+        quantity: number()
+            .refine((value) => value >= 0, { message: "Quantity must be positive number" })
+            .optional(),
+        quantity_per_user: number()
+            .refine((value) => value >= 0, { message: "Quantity per user must be positive number" })
+            .optional(),
+        applied_product_type: string().optional(),
+        applied_product_list: string().array().optional(),
+        is_private: boolean().default(false),
+        is_active: boolean().default(true)
+    }),
+    params: object({
+        discountId: string().refine((value) => validateObjectId(value), {
+            message: "Invalid discount id"
+        })
+    })
+});
+
+export type DiscountInput = TypeOf<typeof DiscountSchema>;
+export type UpdatedDiscountInput = TypeOf<typeof UpdateDiscountSchema>;

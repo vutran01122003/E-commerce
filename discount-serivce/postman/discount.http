@@ -1,0 +1,43 @@
+@url=http://localhost:4000
+
+### Create discount
+POST {{url}}/api/discounts
+Content-Type: application/json
+
+{
+    "shop": "67335c120b2a1b45a93fe0121",
+    "name": "Voucher 09/09",
+    "code": "WZC002",
+    "start_time": "2025-03-08T00:00:00Z",
+    "expiry_time": "2025-03-10T00:00:00Z",
+    "discount_type": "fixed",
+    "discount_value": 8000,
+    "min_price_product": 100000,
+    "quantity": 1000,
+    "quantity_per_user": 2,
+    "applied_product_type": "all",
+    "is_private": false,
+    "is_active": true
+}
+
+### Get discount
+GET {{url}}/api/discounts/67cc13920bb30824e70344fa
+
+### Update discount
+PATCH {{url}}/api/discounts/67cd83f9fd7c45d07635a2e5
+Content-Type: application/json
+
+{
+    "discount_value": 5000,
+    "min_price_product": 100000,
+    "quantity": 500,
+    "quantity_per_user": 1,
+    "start_time": "2025-03-09T00:00:00.000Z",
+    "code": "WZC004"
+}
+
+### Delete discount 
+DELETE {{url}}/api/discounts/67cd83f9fd7c45d07635a2e5
+
+
+
