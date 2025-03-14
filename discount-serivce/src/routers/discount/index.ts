@@ -7,6 +7,7 @@ const router: Router = Router();
 
 router.post("/discounts", validateResource(DiscountSchema), discountController.createDiscountHandler);
 router.get("/discounts/:discountId", discountController.getDiscountHandler);
+router.get("/discounts/shops/:shopId", discountController.getDiscountsByShopHandler);
 router.patch(
     "/discounts/:discountId",
     validateResource(UpdateDiscountSchema),

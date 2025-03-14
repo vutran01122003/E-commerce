@@ -78,6 +78,24 @@ class DiscountController {
             next(error);
         }
     }
+
+    async getDiscountsByShopHandler(req: Request, res: Response, next: NextFunction) {
+        try {
+            const shopId: string = req.params.shopId;
+
+            if (!shopId) throw createError.BadRequest("Invalid shop id");
+
+            const discountList = await DiscountService.getDiscountsByShop(shopId);
+
+            res.status(200).json({
+                code: Code.SUCCESS,
+                message: "Get discounts by shop successful",
+                data: discountList
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default new DiscountController();

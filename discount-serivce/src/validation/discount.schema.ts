@@ -20,10 +20,18 @@ export const DiscountSchema = object({
             .max(255, "Code must be less than or equal to 255 characters"),
         start_time: string({
             required_error: "Start time is required"
-        }).datetime(),
+        })
+            .datetime()
+            .refine((value) => new Date(value) > new Date(), {
+                message: "Start time must be after the current time"
+            }),
         expiry_time: string({
             required_error: "Expiry time is required"
-        }).datetime(),
+        })
+            .datetime()
+            .refine((value) => new Date(value) > new Date(), {
+                message: "Expiry time must be after the current time"
+            }),
         discount_type: string({
             required_error: "Discount type is required"
         }),
@@ -39,13 +47,16 @@ export const DiscountSchema = object({
         quantity_per_user: number({
             required_error: "Quantity per user is required"
         }),
-        used_user_list: string().array(),
+        used_user_list: string().array().optional(),
         applied_product_type: string({
             required_error: "Applied product type is required"
-        }),
-        applied_product_list: string().array(),
+        }).optional(),
+        applied_product_list: string().array().optional(),
         is_private: boolean().default(false),
         is_active: boolean().default(true)
+    }).refine((data) => new Date(data.start_time) < new Date(data.expiry_time), {
+        message: "Start time must be less than expiry time",
+        path: ["start_time"]
     })
 });
 

@@ -5,10 +5,10 @@ POST {{url}}/api/discounts
 Content-Type: application/json
 
 {
-    "shop": "67335c120b2a1b45a93fe0121",
+    "shop": "67cc13920bb30824e70344fa",
     "name": "Voucher 09/09",
-    "code": "WZC002",
-    "start_time": "2025-03-08T00:00:00Z",
+    "code": "WZC003",
+    "start_time": "2025-03-10T00:00:00Z",
     "expiry_time": "2025-03-10T00:00:00Z",
     "discount_type": "fixed",
     "discount_value": 8000,

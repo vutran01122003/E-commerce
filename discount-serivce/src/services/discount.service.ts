@@ -55,6 +55,14 @@ class DiscountService {
             throw error;
         }
     }
+
+    static async getDiscountsByShop(shopId: String): Promise<DiscountDocument[]> {
+        const discountList = await Discount.find({ shop: shopId });
+
+        return discountList;
+    }
+
+    static async getProductsByDiscount() {}
 }
 
 export default DiscountService;
