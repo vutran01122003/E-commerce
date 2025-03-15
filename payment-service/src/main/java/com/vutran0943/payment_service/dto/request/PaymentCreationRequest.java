@@ -1,8 +1,6 @@
 package com.vutran0943.payment_service.dto.request;
 
 import com.vutran0943.payment_service.shared.PaymentMethod;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
